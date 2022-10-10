@@ -37,3 +37,12 @@ func (controller *CategoryControllerImpl) FindById(c *fiber.Ctx) error {
 		Data:    categoryResponse,
 	})
 }
+
+func (controller *CategoryControllerImpl) Create(c *fiber.Ctx) error {
+	category := controller.CategoryService.Create(c)
+	categoryResponse := helper.ToCategoryResponse(category)
+	return c.JSON(response.WebResponse{
+		Message: "Success create category",
+		Data:    categoryResponse,
+	})
+}

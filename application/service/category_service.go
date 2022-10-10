@@ -9,5 +9,5 @@ import (
 type CategoryService interface {
 	FindAll(c *fiber.Ctx) []model.Category
 	FindById(c *fiber.Ctx, categoryId int) model.Category
-	Create(c *fiber.Ctx, categoryId int) model.Category
+	Create(c *fiber.Ctx) model.Category
 }

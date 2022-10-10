@@ -15,5 +15,6 @@ func CategoryRouterApi(api fiber.Router, validate *validator.Validate) {
 
 	categoryApi := api.Group("category")
 	categoryApi.Get("/", categoryController.FindAll)
+	categoryApi.Post("/", categoryController.Create)
 	categoryApi.Get("/:categoryId", categoryController.FindById)
 }

@@ -2,6 +2,7 @@ package service
 
 import (
 	"gofiber-penitipan-barang/application/model"
+	"gofiber-penitipan-barang/application/request"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
@@ -35,11 +36,24 @@ func (service *CategoryServiceImpl) FindById(c *fiber.Ctx, categoryId int) model
 	return category
 }
 
-func (service *CategoryServiceImpl) Create(c *fiber.Ctx, categoryId int) model.Category {
-	var category model.Category
-	service.DB.Find(&category, categoryId)
-	if category.Id == 0 {
-		panic(fiber.NewError(404, "data not found"))
+func (service *CategoryServiceImpl) Create(c *fiber.Ctx) model.Category {
+	categoryRequest := request.CategoryRequest{}
+
+	err := c.BodyParser(&categoryRequest)
+	if err != nil {
+		panic(fiber.NewError(500, err.Error()))
 	}
+
+	category := model.Category{
+		Name: categoryRequest.Name,
+	}
+
+	err = service.validate.Struct(category)
+
+	if err != nil {
+		panic(fiber.NewError(500, err.Error()))
+	}
+
+	service.DB.Create(&category)
 	return category
 }
