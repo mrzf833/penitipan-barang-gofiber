@@ -46,3 +46,21 @@ func (controller *CategoryControllerImpl) Create(c *fiber.Ctx) error {
 		Data:    categoryResponse,
 	})
 }
+
+func (controller *CategoryControllerImpl) Update(c *fiber.Ctx) error {
+	categoryId, _ := strconv.Atoi(c.Params("categoryId"))
+	category := controller.CategoryService.Update(c, categoryId)
+	categoryResponse := helper.ToCategoryResponse(category)
+	return c.JSON(response.WebResponse{
+		Message: "Success update category",
+		Data:    categoryResponse,
+	})
+}
+
+func (controller *CategoryControllerImpl) Delete(c *fiber.Ctx) error {
+	categoryId, _ := strconv.Atoi(c.Params("categoryId"))
+	controller.CategoryService.Delete(c, categoryId)
+	return c.JSON(response.WebResponse{
+		Message: "Success delete category",
+	})
+}

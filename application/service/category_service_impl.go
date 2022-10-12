@@ -37,15 +37,15 @@ func (service *CategoryServiceImpl) FindById(c *fiber.Ctx, categoryId int) model
 }
 
 func (service *CategoryServiceImpl) Create(c *fiber.Ctx) model.Category {
-	categoryRequest := request.CategoryRequest{}
+	categoryCreateRequest := request.CategoryCreateRequest{}
 
-	err := c.BodyParser(&categoryRequest)
+	err := c.BodyParser(&categoryCreateRequest)
 	if err != nil {
 		panic(fiber.NewError(500, err.Error()))
 	}
 
 	category := model.Category{
-		Name: categoryRequest.Name,
+		Name: categoryCreateRequest.Name,
 	}
 
 	err = service.validate.Struct(category)
@@ -56,4 +56,41 @@ func (service *CategoryServiceImpl) Create(c *fiber.Ctx) model.Category {
 
 	service.DB.Create(&category)
 	return category
+}
+
+func (service *CategoryServiceImpl) Update(c *fiber.Ctx, categoryId int) model.Category {
+	categoryUpdateRequest := request.CategoryUpdateRequest{}
+
+	err := c.BodyParser(&categoryUpdateRequest)
+	if err != nil {
+		panic(fiber.NewError(500, err.Error()))
+	}
+
+	category := model.Category{
+		Id:   categoryId,
+		Name: categoryUpdateRequest.Name,
+	}
+
+	err = service.validate.Struct(category)
+
+	if err != nil {
+		panic(fiber.NewError(500, err.Error()))
+	}
+
+	tx := service.DB.First(&model.Category{}, categoryId)
+	if category.Id == 0 {
+		panic(fiber.NewError(404, "data not found"))
+	}
+	tx.Updates(&category)
+	return category
+}
+
+func (service *CategoryServiceImpl) Delete(c *fiber.Ctx, categoryId int) {
+	category := model.Category{}
+
+	tx := service.DB.First(&category, categoryId)
+	if category.Id == 0 {
+		panic(fiber.NewError(404, "data not found"))
+	}
+	tx.Delete(&category)
 }

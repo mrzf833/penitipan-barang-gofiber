@@ -10,4 +10,6 @@ type CategoryService interface {
 	FindAll(c *fiber.Ctx) []model.Category
 	FindById(c *fiber.Ctx, categoryId int) model.Category
 	Create(c *fiber.Ctx) model.Category
+	Update(c *fiber.Ctx, categoryId int) model.Category
+	Delete(c *fiber.Ctx, categoryId int)
 }
