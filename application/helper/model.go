@@ -19,3 +19,21 @@ func ToCategoryResponses(categories []model.Category) []response.CategoryRespons
 	}
 	return categoriesResponse
 }
+
+func ToStudentResponse(student model.Student) response.StudentResponse {
+	return response.StudentResponse{
+		Id:          student.Id,
+		Fullname:    student.Fullname,
+		Email:       student.Email,
+		PhoneNumber: student.PhoneNumber,
+		Address:     student.Address,
+	}
+}
+
+func ToStudentResponses(students []model.Student) []response.StudentResponse {
+	var studentsResponse []response.StudentResponse
+	for _, student := range students {
+		studentsResponse = append(studentsResponse, ToStudentResponse(student))
+	}
+	return studentsResponse
+}

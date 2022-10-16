@@ -8,5 +8,7 @@ import (
 func SetupRoutes(app *fiber.App, validate *validator.Validate) {
 	// Middleware
 	api := app.Group("/api")
+	AuthRouterApi(api, validate)
 	CategoryRouterApi(api, validate)
+	StudentRouterApi(api, validate)
 }

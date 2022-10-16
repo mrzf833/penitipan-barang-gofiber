@@ -33,7 +33,7 @@ func (controller *CategoryControllerImpl) FindById(c *fiber.Ctx) error {
 	category := controller.CategoryService.FindById(c, categoryId)
 	categoryResponse := helper.ToCategoryResponse(category)
 	return c.JSON(response.WebResponse{
-		Message: "Success get all category",
+		Message: "Success get category",
 		Data:    categoryResponse,
 	})
 }
