@@ -37,3 +37,19 @@ func ToStudentResponses(students []model.Student) []response.StudentResponse {
 	}
 	return studentsResponse
 }
+
+func ToAdminUserResponse(adminUser model.User) response.AdminUserResponse {
+	return response.AdminUserResponse{
+		Id:       adminUser.Id,
+		Name:     adminUser.Name,
+		Username: adminUser.Username,
+	}
+}
+
+func ToAdminUserResponses(adminUsers []model.User) []response.AdminUserResponse {
+	var adminUsersResponse []response.AdminUserResponse
+	for _, adminUser := range adminUsers {
+		adminUsersResponse = append(adminUsersResponse, ToAdminUserResponse(adminUser))
+	}
+	return adminUsersResponse
+}
