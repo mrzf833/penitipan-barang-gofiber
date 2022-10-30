@@ -12,4 +12,5 @@ func SetupRoutes(app *fiber.App, validate *validator.Validate) {
 	CategoryRouterApi(api, validate)
 	StudentRouterApi(api, validate)
 	AdminUserRouterApi(api, validate)
+	InventoryRouterApi(api, validate)
 }

@@ -53,3 +53,34 @@ func ToAdminUserResponses(adminUsers []model.User) []response.AdminUserResponse 
 	}
 	return adminUsersResponse
 }
+
+func ToInventoryResponse(inventory model.Inventory) response.InventoryResponse {
+	inventoryResponse := response.InventoryResponse{
+		Id:               inventory.Id,
+		CategoryId:       int(inventory.CategoryId.Int64),
+		CategoryName:     inventory.Category.Name,
+		DepositAdmin:     inventory.DepositAdmin,
+		DepositStudentId: int(inventory.DepositStudentId.Int64),
+		DepositName:      inventory.DepositName.String,
+		DepositTime:      inventory.DepositTime.Format("2006-01-02 15:04:05"),
+		ItemName:         inventory.ItemName,
+		Description:      inventory.Description.String,
+		Status:           inventory.Status,
+		TakeAdmin:        int(inventory.TakeAdmin.Int64),
+		TakeStudentId:    inventory.TakeStudent.Id,
+		TakeName:         inventory.TakeName.String,
+	}
+	if inventory.TakeTime.Valid {
+		inventoryResponse.TakeTime = inventory.TakeTime.Time.Format("2006-01-02 15:04:05")
+	}
+
+	return inventoryResponse
+}
+
+func ToInventoryResponses(inventories []model.Inventory) []response.InventoryResponse {
+	var inventoriesResponse []response.InventoryResponse
+	for _, inventory := range inventories {
+		inventoriesResponse = append(inventoriesResponse, ToInventoryResponse(inventory))
+	}
+	return inventoriesResponse
+}
